@@ -1,5 +1,5 @@
 class Car{
-    constructor(x,y,width,height){
+    constructor(x, y, width, height, controlType){
         this.x=x;
         this.y=y;
         this.width=width;
@@ -7,30 +7,47 @@ class Car{
 
         this.speed=0;
         this.acceleration=0.2;
-        this.maxSpeed=2;
         this.friction=0.03;
         this.angle=0;
         this.damaged=false;
 
-        this.sensor=new Sensor(this);
-        this.controls=new Controls();
+        switch(controlType){
+            case "KEYS":
+                this.maxSpeed=3;
+                this.sensor=new Sensor(this);
+                break;
+            case "DUMMY":
+                this.maxSpeed=2;
+                break;
+        }
+
+        this.controls=new Controls(controlType);
     }
 
-    update(roadBorders){
+    update(roadBorders,traffic){
         if(!this.damaged){
             this.#move();
             this.polygon=this.#createPolygon();
-            this.damaged=this.#assessDamage(roadBorders);
+            this.damaged=this.#assessDamage(roadBorders, traffic);
         }
-        this.sensor.update(roadBorders);
+        if(this.sensor){
+            this.sensor.update(roadBorders,traffic);
+        }
     }
 
-    #assessDamage(roadBorders){
+    #assessDamage(roadBorders,traffic){
         for(let i=0;i<roadBorders.length;i++){
             if(polysIntersect(this.polygon,roadBorders[i])){    //checking to see if car touches any borders
                 return true;
             }
         }
+
+        for(let i=0;i<traffic.length;i++){
+            if(polysIntersect(this.polygon,traffic[i].polygon)){    //checking to see if car touches any other car in traffic
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -84,13 +101,15 @@ class Car{
     }
     
 
-    draw(ctx){
+    draw(ctx, color){
         if(this.damaged){
             ctx.fillStyle="gray";
         }else{
-            ctx.fillStyle="blue";
+            ctx.fillStyle=color;
         }
-        this.sensor.draw(ctx);
+        if(this.sensor){
+            this.sensor.draw(ctx);   //only draw the sensor if it exists (controlType=KEYS)
+        }
         ctx.beginPath();
         ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
         for(let i=1; i<this.polygon.length; i++){
