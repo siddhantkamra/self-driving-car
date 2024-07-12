@@ -12,6 +12,12 @@ class Car{
         this.damaged=false;
 
         switch(controlType){
+            case "AI":
+                this.maxSpeed=3;
+                this.sensor=new Sensor(this);
+                this.useBrain=1;
+                this.brain=new NeuralNetwork([this.sensor.rayCount, 6, 4]);  //define brain which has three levels with respective neuron counts
+                break;
             case "KEYS":
                 this.maxSpeed=3;
                 this.sensor=new Sensor(this);
@@ -32,6 +38,15 @@ class Car{
         }
         if(this.sensor){
             this.sensor.update(roadBorders,traffic);
+            const offsets=this.sensor.readings.map(s=>s==null?0:1-s.offset);  //offsets of the sensor readings. (1-offests) because we want lower values if objects are far away and higher value if objects are close
+            const outputs=NeuralNetwork.feedForward(offsets, this.brain);
+
+            if(this.useBrain){
+                this.controls.forward=outputs[0];
+                this.controls.left=outputs[1];
+                this.controls.right=outputs[2];
+                this.controls.reverse=outputs[3];
+            }
         }
     }
 

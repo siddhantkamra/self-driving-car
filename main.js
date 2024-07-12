@@ -3,7 +3,7 @@ const carCtx=carCanvas.getContext("2d");
 carCanvas.width=300;
 
 const road=new Road(carCanvas.width/2,carCanvas.width*0.9, 3);
-const car=new Car(road.getLaneCenter(1),window.innerHeight*0.7,30,50,"KEYS");
+const car=new Car(road.getLaneCenter(1),window.innerHeight*0.7,30,50,"AI");
 const traffic=[new Car(road.getLaneCenter(1),200,30,50,"DUMMY")];
 
 animate();
