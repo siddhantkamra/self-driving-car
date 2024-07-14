@@ -117,13 +117,13 @@ class Car{
     }
     
 
-    draw(ctx, color){
+    draw(ctx, color, drawSensor=false){
         if(this.damaged){
             ctx.fillStyle="gray";
         }else{
             ctx.fillStyle=color;
         }
-        if(this.sensor){
+        if(this.sensor && drawSensor){
             this.sensor.draw(ctx);   //only draw the sensor if it exists (controlType=KEYS)
         }
         ctx.beginPath();
