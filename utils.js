@@ -29,3 +29,11 @@ function polysIntersect(poly1, poly2){
     }
     return false;
 }
+
+function getRGBA(value){
+    const alpha=Math.abs(value);  //aplha signifies transparency acc. to value
+    const R=value<0?0:255;  //positive values have yellow color (equal red and green)
+    const G=R;
+    const B=value>0?0:255;  //negative values have blue color
+    return "rgba("+R+","+G+","+B+","+alpha+")";
+}

@@ -15,12 +15,13 @@ class Car{
             case "AI":
                 this.maxSpeed=3;
                 this.sensor=new Sensor(this);
-                this.useBrain=1;
+                this.useBrain=1;   //only use brain when AI
                 this.brain=new NeuralNetwork([this.sensor.rayCount, 6, 4]);  //define brain which has three levels with respective neuron counts
                 break;
             case "KEYS":
                 this.maxSpeed=3;
                 this.sensor=new Sensor(this);
+                this.brain=new NeuralNetwork([this.sensor.rayCount, 6, 4]);
                 break;
             case "DUMMY":
                 this.maxSpeed=2;

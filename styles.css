@@ -8,3 +8,8 @@ body {
 #carCanvas{
     background-color: lightgray;
 }
+
+#networkCanvas{
+    background-color: black;
+    margin-left: 20px;
+}
