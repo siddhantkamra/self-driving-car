@@ -37,3 +37,24 @@ function getRGBA(value){
     const B=value>0?0:255;  //negative values have blue color
     return "rgba("+R+","+G+","+B+","+alpha+")";
 }
+
+function getImgSrc(controlType, width, height){
+    if(controlType=="AI" || controlType=="KEYS"){
+        return "main-car.png";
+    }
+    if(width==70 && height==130){
+        return "biggest-car.png";
+    }
+    if(width==40 && height==70){
+        return "car.png";
+    }
+    if(width==40 && height==80){   
+        return "car2.png";
+    }
+    if(width==60 && height==110){
+        return "car3.png";
+    }
+    if(width==50 && height==90){
+        return "car2.png";
+    }
+}

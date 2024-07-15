@@ -7,6 +7,7 @@ class Visualizer{
         const height=ctx.canvas.height-2*margin;
 
         const levelHeight=height/network.levels.length;
+
         for(let i=network.levels.length-1; i>=0; i--){   //draw all the levels
             const levelTop=top + lerp(height-levelHeight, 0, network.levels.length==1?0.5:i/(network.levels.length-1));
             ctx.setLineDash([7,3]);
@@ -19,7 +20,6 @@ class Visualizer{
         const right=left+width;
         const bottom=top+height;
         const nodeRadius=14;
-        //const nodePadding=10;
         const {inputs,outputs,weights,biases}=level;
 
         for(let i=0;i<inputs.length;i++){    //draw lines between input and output nodes
